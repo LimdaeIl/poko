@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.5'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id "org.sonarqube" version "6.0.1.5171"
 }
 
 group = 'com'
@@ -23,6 +24,7 @@ repositories {
 	mavenCentral()
 }
 
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -37,6 +39,10 @@ dependencies {
 	compileOnly 'io.github.cdimascio:java-dotenv:5.2.2'
 	testImplementation 'io.github.cdimascio:java-dotenv:5.2.2'
 
+	implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
+	testImplementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
+	compileOnly 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
+	runtimeOnly 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
 }
 
 tasks.named('test') {
