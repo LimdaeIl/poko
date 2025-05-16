@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/linux,netbeans,intellij+all,visualstudio,visualstudiocode,java,kotlin,maven,gradle,windows,macos,elasticbeanstalk,redis,git,gitbook,cvs
 # Edit at https://www.toptal.com/developers/gitignore?templates=linux,netbeans,intellij+all,visualstudio,visualstudiocode,java,kotlin,maven,gradle,windows,macos,elasticbeanstalk,redis,git,gitbook,cvs
 
+### env ###
+*.env
+
 ### CVS ###
 /CVS/*
 **/CVS/*
