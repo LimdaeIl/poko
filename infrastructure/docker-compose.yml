@@ -1,0 +1,21 @@
+services:
+  postgres-db:
+    image: postgres:latest
+    container_name: poko_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - ${POSTGRES_DATA_PATH}:/var/lib/postgresql/data  # Named volume 만 사용
+    networks:
+      - poko-network
+
+volumes:
+  postgres_db:
+
+networks:
+  poko-network:
