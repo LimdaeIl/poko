@@ -1,14 +1,14 @@
 server:
-  port: ${SERVER_PORT:10000}
+  port: ${SERVER_PORT}
 
 spring:
   application:
-    name: ${SPRING_APP_NAME:poko-service}
+    name: ${SPRING_APP_NAME}
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5431}/${DB_NAME:postgres}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:secure_pw}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -20,4 +20,4 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        use_sql_comments: true
+        use_sql_comments: tru
