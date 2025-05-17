@@ -43,6 +43,13 @@ dependencies {
 	testImplementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
 	compileOnly 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
 	runtimeOnly 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
+
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation 'org.springframework.security:spring-security-crypto:6.4.4'
+	testImplementation 'org.springframework.security:spring-security-crypto:6.4.4'
+
+
 }
 
 tasks.named('test') {
