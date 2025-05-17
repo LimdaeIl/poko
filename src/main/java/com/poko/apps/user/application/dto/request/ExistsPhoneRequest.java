@@ -3,7 +3,7 @@ package com.poko.apps.user.application.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-public record existsPhoneRequest(
+public record ExistsPhoneRequest(
     @NotBlank(message = "휴대전화번호: 휴대전화번호는 필수입니다.")
     @Pattern(
         regexp = "^\\d{11}$",

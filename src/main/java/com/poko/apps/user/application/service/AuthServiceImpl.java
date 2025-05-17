@@ -4,8 +4,8 @@ import static com.poko.apps.common.exception.CommonErrorCode.INVALID_INPUT;
 
 import com.poko.apps.common.exception.CustomException;
 import com.poko.apps.user.application.dto.request.SignupRequest;
-import com.poko.apps.user.application.dto.request.existsEmailRequest;
-import com.poko.apps.user.application.dto.request.existsPhoneRequest;
+import com.poko.apps.user.application.dto.request.ExistsEmailRequest;
+import com.poko.apps.user.application.dto.request.ExistsPhoneRequest;
 import com.poko.apps.user.application.dto.response.SignupResponse;
 import com.poko.apps.user.domain.entity.User;
 import com.poko.apps.user.domain.enums.auth.AuthErrorCode;
@@ -64,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
   }
 
   @Override
-  public AuthSuccessCode existsEmail(existsEmailRequest request) {
+  public AuthSuccessCode existsEmail(ExistsEmailRequest request) {
     if (!existsUserByEmail(request.email())) {
       return AuthSuccessCode.EMAIL_AVAILABLE;
     }
@@ -72,7 +72,7 @@ public class AuthServiceImpl implements AuthService {
   }
 
   @Override
-  public AuthSuccessCode existsPhone(existsPhoneRequest request) {
+  public AuthSuccessCode existsPhone(ExistsPhoneRequest request) {
     if (!existsUserByPhone(request.phone())) {
       return AuthSuccessCode.PHONE_AVAILABLE;
     }

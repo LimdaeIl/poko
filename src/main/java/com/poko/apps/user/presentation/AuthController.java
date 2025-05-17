@@ -6,8 +6,8 @@ import static org.springframework.http.HttpStatus.OK;
 
 import com.poko.apps.common.util.response.ApiResponse;
 import com.poko.apps.user.application.dto.request.SignupRequest;
-import com.poko.apps.user.application.dto.request.existsEmailRequest;
-import com.poko.apps.user.application.dto.request.existsPhoneRequest;
+import com.poko.apps.user.application.dto.request.ExistsEmailRequest;
+import com.poko.apps.user.application.dto.request.ExistsPhoneRequest;
 import com.poko.apps.user.application.dto.response.ExistsEmailResponse;
 import com.poko.apps.user.application.dto.response.ExistsPhoneResponse;
 import com.poko.apps.user.application.dto.response.SignupResponse;
@@ -44,7 +44,7 @@ public class AuthController {
   }
 
   @PostMapping("/email-exists")
-  public ResponseEntity<ApiResponse<ExistsEmailResponse>> existsEmail(@Valid @RequestBody existsEmailRequest request) {
+  public ResponseEntity<ApiResponse<ExistsEmailResponse>> existsEmail(@Valid @RequestBody ExistsEmailRequest request) {
     AuthSuccessCode authSuccessCode = authService.existsEmail(request);
 
     return ResponseEntity
@@ -59,7 +59,7 @@ public class AuthController {
   }
 
   @PostMapping("/phone-exists")
-  public ResponseEntity<ApiResponse<ExistsPhoneResponse>> existsEmail(@Valid @RequestBody existsPhoneRequest request) {
+  public ResponseEntity<ApiResponse<ExistsPhoneResponse>> existsEmail(@Valid @RequestBody ExistsPhoneRequest request) {
     AuthSuccessCode authSuccessCode = authService.existsPhone(request);
 
     return ResponseEntity
