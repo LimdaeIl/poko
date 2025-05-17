@@ -9,14 +9,13 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum UserErrorCode implements ErrorCode {
 
-  USER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "User not found.", HttpStatus.NOT_FOUND),
-  USER_GET_FORBIDDEN(HttpStatus.FORBIDDEN.value(), "You are not allowed to access this user's information.", HttpStatus.FORBIDDEN),
-  USER_ROLE_NOT_VALID(HttpStatus.BAD_REQUEST.value(), "Invalid user role.", HttpStatus.BAD_REQUEST),
-  USER_ALREADY_EXISTS(HttpStatus.CONFLICT.value(), "User already exists.", HttpStatus.CONFLICT),
-  USER_SIGNUP_FAILED(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Failed to sign up user.", HttpStatus.INTERNAL_SERVER_ERROR),
-  USER_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Failed to update user information.", HttpStatus.INTERNAL_SERVER_ERROR),
-  USER_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Failed to delete user.", HttpStatus.INTERNAL_SERVER_ERROR);
-
+  USER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "회원을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  USER_GET_FORBIDDEN(HttpStatus.FORBIDDEN.value(), "해당 회원 정보를 조회할 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  USER_ROLE_NOT_VALID(HttpStatus.BAD_REQUEST.value(), "유효하지 않은 회원 권한입니다.", HttpStatus.BAD_REQUEST),
+  USER_ALREADY_EXISTS(HttpStatus.CONFLICT.value(), "이미 존재하는 회원입니다.", HttpStatus.CONFLICT),
+  USER_SIGNUP_FAILED(HttpStatus.INTERNAL_SERVER_ERROR.value(), "회원가입에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+  USER_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR.value(), "회원 정보 수정에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+  USER_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR.value(), "회원 삭제에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 
   private final Integer code;
   private final String message;
