@@ -4,6 +4,7 @@ import com.poko.apps.user.domain.enums.user.UserRoleType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import java.util.Optional;
 
 public record SignupRequest(
 
@@ -36,6 +37,8 @@ public record SignupRequest(
     UserRoleType userRoleType
 ) {
     public String profileImageOrNull() {
-        return (profileImage == null || profileImage.trim().isEmpty()) ? null : profileImage;
+        return Optional.ofNullable(profileImage)
+            .filter(img -> !img.isBlank())
+            .orElse(null);
     }
 }
