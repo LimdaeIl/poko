@@ -59,7 +59,7 @@ public class AuthController {
   }
 
   @PostMapping("/phone-exists")
-  public ResponseEntity<ApiResponse<ExistsPhoneResponse>> existsEmail(@Valid @RequestBody ExistsPhoneRequest request) {
+  public ResponseEntity<ApiResponse<ExistsPhoneResponse>> existsPhone(@Valid @RequestBody ExistsPhoneRequest request) {
     AuthSuccessCode authSuccessCode = authService.existsPhone(request);
 
     return ResponseEntity
