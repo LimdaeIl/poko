@@ -16,10 +16,12 @@ import com.poko.apps.user.domain.jwt.JwtProvider;
 import com.poko.apps.user.domain.repository.auth.AuthRepository;
 import com.poko.apps.user.domain.repository.auth.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -105,4 +107,17 @@ public class AuthServiceImpl implements AuthService {
 
     return LoginResponse.of(accessToken, refreshToken);
   }
+
+  @Transactional
+  @Override
+  public void logout(String accessToken) {
+    long remainingMillis = jwtProvider.getRemainingMillisByToken(accessToken);
+    String jti = jwtProvider.getTokenId(accessToken);
+    Long userId = jwtProvider.getUserIdByToken(accessToken);
+
+    refreshTokenRepository.setTokenBlacklist(jti, remainingMillis);
+    refreshTokenRepository.deleteRefreshToken(userId);
+  }
+
+
 }
