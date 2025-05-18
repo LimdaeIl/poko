@@ -1,4 +1,4 @@
-package com.poko.apps.user.application.dto.request;
+package com.poko.apps.user.application.dto.auth.request;
 
 import com.poko.apps.user.domain.enums.user.UserRoleType;
 import jakarta.validation.constraints.Email;

@@ -1,4 +1,4 @@
-package com.poko.apps.user.application.dto.request;
+package com.poko.apps.user.application.dto.auth.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
