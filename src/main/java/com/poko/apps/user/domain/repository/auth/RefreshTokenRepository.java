@@ -4,4 +4,7 @@ public interface RefreshTokenRepository {
 
   void saveRefreshToken(Long userId, String refreshToken, long ttlMillis);
 
+  void setTokenBlacklist(String jti, long ttlMillis);
+
+  void deleteRefreshToken(Long userId);
 }
