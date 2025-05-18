@@ -1,4 +1,4 @@
-package com.poko.apps.user.domain.repository.user;
+package com.poko.apps.user.domain.repository.auth;
 
 import com.poko.apps.user.domain.entity.User;
 import java.util.Optional;
