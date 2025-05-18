@@ -31,21 +31,6 @@ public class JwtProviderImpl implements JwtProvider {
   @Value("${jwt.refresh.expire}")
   private long refreshTokenExpire;
 
-  @Value("${jwt.cookie.secure}")
-  private boolean isCookieSecure;
-
-  @Value("${jwt.cookie.httpOnly}")
-  private boolean isCookieHttpOnly;
-
-  @Value("${jwt.cookie.sameSite}")
-  private String sameSite;
-
-  @Value("${jwt.cookie.domain}")
-  private String domain;
-
-  @Value("${jwt.cookie.path}")
-  private String path;
-
   public JwtProviderImpl(@Value("${jwt.secret}") String secretKey) {
     byte[] keyBytes = Decoders.BASE64.decode(secretKey);
     this.accessKey = Keys.hmacShaKeyFor(keyBytes);
