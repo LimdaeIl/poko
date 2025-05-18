@@ -1,6 +1,7 @@
 package com.poko.apps.user.application.service;
 
 import static com.poko.apps.common.exception.CommonErrorCode.INVALID_INPUT;
+import static com.poko.apps.user.domain.enums.auth.AuthErrorCode.*;
 
 import com.poko.apps.common.exception.CustomException;
 import com.poko.apps.user.application.dto.auth.request.ExistsEmailRequest;
@@ -42,17 +43,17 @@ public class AuthServiceImpl implements AuthService {
 
   private User findUserByPhone(String phone) {
     return authRepository.findByPhone(phone)
-        .orElseThrow(() -> new CustomException(AuthErrorCode.USER_NOT_FOUND_BY_PHONE));
+        .orElseThrow(() -> new CustomException(USER_NOT_FOUND_BY_PHONE));
   }
 
   private User findUserByEmail(String email) {
     return authRepository.findByEmail(email)
-        .orElseThrow(() -> new CustomException(AuthErrorCode.USER_NOT_FOUND_BY_EMAIL));
+        .orElseThrow(() -> new CustomException(USER_NOT_FOUND_BY_EMAIL));
   }
 
   private void passwordMatch(String password, User user) {
     if (!passwordEncoder.matches(password, user.getPassword())) {
-      throw new CustomException(AuthErrorCode.INVALID_PASSWORD);
+      throw new CustomException(INVALID_PASSWORD);
     }
   }
 
@@ -111,6 +112,10 @@ public class AuthServiceImpl implements AuthService {
   @Transactional
   @Override
   public void logout(String accessToken) {
+    if (accessToken.isBlank()) {
+      throw new CustomException(INVALID_BEARER_TOKEN);
+    }
+
     long remainingMillis = jwtProvider.getRemainingMillisByToken(accessToken);
     String jti = jwtProvider.getTokenId(accessToken);
     Long userId = jwtProvider.getUserIdByToken(accessToken);
