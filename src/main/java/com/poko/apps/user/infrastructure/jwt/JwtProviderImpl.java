@@ -1,10 +1,12 @@
 package com.poko.apps.user.infrastructure.jwt;
 
+import static com.poko.apps.user.domain.enums.auth.AuthErrorCode.INVALID_BEARER_TOKEN;
+
 import com.poko.apps.common.exception.CustomException;
-import com.poko.apps.user.domain.enums.auth.AuthErrorCode;
 import com.poko.apps.user.domain.enums.user.UserRoleType;
 import com.poko.apps.user.domain.jwt.JwtProvider;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -90,15 +92,19 @@ public class JwtProviderImpl implements JwtProvider {
 
   private Claims extractClaims(String bearerToken) {
     if (bearerToken.isBlank() || !bearerToken.startsWith(PREFIX_BEARER)) {
-      throw new CustomException(AuthErrorCode.INVALID_BEARER_TOKEN);
+      throw new CustomException(INVALID_BEARER_TOKEN);
     }
 
-    String token = bearerToken.substring(7);
+    String token = bearerToken.substring(PREFIX_BEARER.length());
 
-    return Jwts.parser()
-        .verifyWith(secretKey)
-        .build()
-        .parseSignedClaims(token)
-        .getPayload();
+    try {
+      return Jwts.parser()
+          .verifyWith(secretKey)
+          .build()
+          .parseSignedClaims(token)
+          .getPayload();
+    } catch (JwtException e) {
+      throw new CustomException(INVALID_BEARER_TOKEN);
+    }
   }
 }
