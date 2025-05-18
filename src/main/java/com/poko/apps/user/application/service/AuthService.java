@@ -1,10 +1,13 @@
 package com.poko.apps.user.application.service;
 
-import com.poko.apps.user.application.dto.request.SignupRequest;
-import com.poko.apps.user.application.dto.request.ExistsEmailRequest;
-import com.poko.apps.user.application.dto.request.ExistsPhoneRequest;
-import com.poko.apps.user.application.dto.response.SignupResponse;
+import com.poko.apps.user.application.dto.auth.request.LoginRequest;
+import com.poko.apps.user.application.dto.auth.request.SignupRequest;
+import com.poko.apps.user.application.dto.auth.request.ExistsEmailRequest;
+import com.poko.apps.user.application.dto.auth.request.ExistsPhoneRequest;
+import com.poko.apps.user.application.dto.auth.response.LoginResponse;
+import com.poko.apps.user.application.dto.auth.response.SignupResponse;
 import com.poko.apps.user.domain.enums.auth.AuthSuccessCode;
+import jakarta.validation.Valid;
 
 public interface AuthService {
   SignupResponse signup(SignupRequest request);
@@ -12,4 +15,6 @@ public interface AuthService {
   AuthSuccessCode existsEmail(ExistsEmailRequest request);
 
   AuthSuccessCode existsPhone(ExistsPhoneRequest request);
+
+  LoginResponse login(@Valid LoginRequest request);
 }

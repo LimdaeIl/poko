@@ -3,14 +3,18 @@ package com.poko.apps.user.application.service;
 import static com.poko.apps.common.exception.CommonErrorCode.INVALID_INPUT;
 
 import com.poko.apps.common.exception.CustomException;
-import com.poko.apps.user.application.dto.request.SignupRequest;
-import com.poko.apps.user.application.dto.request.ExistsEmailRequest;
-import com.poko.apps.user.application.dto.request.ExistsPhoneRequest;
-import com.poko.apps.user.application.dto.response.SignupResponse;
+import com.poko.apps.user.application.dto.auth.request.ExistsEmailRequest;
+import com.poko.apps.user.application.dto.auth.request.ExistsPhoneRequest;
+import com.poko.apps.user.application.dto.auth.request.LoginRequest;
+import com.poko.apps.user.application.dto.auth.request.SignupRequest;
+import com.poko.apps.user.application.dto.auth.response.LoginResponse;
+import com.poko.apps.user.application.dto.auth.response.SignupResponse;
 import com.poko.apps.user.domain.entity.User;
 import com.poko.apps.user.domain.enums.auth.AuthErrorCode;
 import com.poko.apps.user.domain.enums.auth.AuthSuccessCode;
-import com.poko.apps.user.domain.repository.user.AuthRepository;
+import com.poko.apps.user.domain.jwt.JwtProvider;
+import com.poko.apps.user.domain.repository.auth.AuthRepository;
+import com.poko.apps.user.domain.repository.auth.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,8 @@ public class AuthServiceImpl implements AuthService {
 
   private final AuthRepository authRepository;
   private final PasswordEncoder passwordEncoder;
+  private final JwtProvider jwtProvider;
+  private final RefreshTokenRepository refreshTokenRepository;
 
 
   private boolean existsUserByEmail(String email) {
@@ -40,6 +46,12 @@ public class AuthServiceImpl implements AuthService {
   private User findUserByEmail(String email) {
     return authRepository.findByEmail(email)
         .orElseThrow(() -> new CustomException(AuthErrorCode.USER_NOT_FOUND_BY_EMAIL));
+  }
+
+  private void passwordMatch(String password, User user) {
+    if (!passwordEncoder.matches(password, user.getPassword())) {
+      throw new CustomException(AuthErrorCode.INVALID_PASSWORD);
+    }
   }
 
   @Transactional
@@ -77,5 +89,20 @@ public class AuthServiceImpl implements AuthService {
       return AuthSuccessCode.PHONE_AVAILABLE;
     }
     return AuthSuccessCode.PHONE_DUPLICATE;
+  }
+
+  @Transactional
+  @Override
+  public LoginResponse login(LoginRequest request) {
+    User userByEmail = findUserByEmail(request.email());
+
+    passwordMatch(request.password(), userByEmail);
+
+    String accessToken = jwtProvider.createAccessToken(userByEmail.getId(), userByEmail.getUserRoleType());
+    String refreshToken = jwtProvider.refreshAccessToken(userByEmail.getId());
+
+    refreshTokenRepository.saveRefreshToken(userByEmail.getId(), refreshToken, jwtProvider.getRefreshTokenExpire());
+
+    return LoginResponse.of(accessToken, refreshToken);
   }
 }
