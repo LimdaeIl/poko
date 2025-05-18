@@ -23,7 +23,7 @@ public enum AuthErrorCode implements ErrorCode {
 
   // 토큰 관련
   REFRESH_TOKEN_EXPIRED(HttpStatus.BAD_REQUEST.value(), "리프레시 토큰이 만료되었습니다.", HttpStatus.BAD_REQUEST),
-  INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST.value(), "유효하지 않은 리프레시 토큰입니다.", HttpStatus.BAD_REQUEST),
+  INVALID_BEARER_TOKEN(HttpStatus.BAD_REQUEST.value(), "유효하지 않은 JWT 토큰입니다.", HttpStatus.BAD_REQUEST),
   REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "리프레시 토큰을 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
 
   private final Integer code;
