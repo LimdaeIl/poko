@@ -1,4 +1,4 @@
-package com.poko.apps.user.application.dto.response;
+package com.poko.apps.user.application.dto.auth.response;
 
 import com.poko.apps.user.domain.entity.User;
 import com.poko.apps.user.domain.enums.user.UserRoleType;

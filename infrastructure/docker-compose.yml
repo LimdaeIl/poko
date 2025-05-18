@@ -14,6 +14,16 @@ services:
     networks:
       - poko-network
 
+  redis-user:
+    image: redis:latest
+    container_name: redis-user
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - ./redis-user-config:/usr/local/etc/redis
+    networks:
+      - poko-network
+
 volumes:
   postgres_db:
 

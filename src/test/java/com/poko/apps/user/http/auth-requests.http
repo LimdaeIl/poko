@@ -1,0 +1,21 @@
+### 회원가입
+POST http://localhost:10000/auth/signup
+Content-Type: application/json
+
+{
+  "email": "poko@naver.com",
+  "password": "Pok123123123!",
+  "name": "poko",
+  "phone": "01012311234",
+  "profileImage": "",
+  "userRoleType": "ROLE_ADMIN"
+}
+
+###
+POST http://localhost:10000/auth/login
+Content-Type: application/json
+
+{
+  "email": "poko@naver.com",
+  "password": "Pok123123123!"
+}
