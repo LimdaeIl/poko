@@ -1,5 +1,5 @@
 ### 회원가입
-POST http://localhost:10000/auth/signup
+POST http://localhost:10000/api/v1/auth/signup
 Content-Type: application/json
 
 {
@@ -11,8 +11,13 @@ Content-Type: application/json
   "userRoleType": "ROLE_ADMIN"
 }
 
+> {%
+    client.global.set("userId", response.body.data.newUser.userId);
+    client.global.set("userRoleType", response.body.data.newUser.userRoleType);
+%}
+
 ### 로그인
-POST http://localhost:10000/auth/login
+POST http://localhost:10000/api/v1/auth/login
 Content-Type: application/json
 
 {
@@ -28,12 +33,12 @@ Content-Type: application/json
 
 
 ### 로그아웃
-POST http://localhost:10000/auth/logout
+POST http://localhost:10000/api/v1/auth/logout
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 ### 토큰 재발급
-POST http://localhost:10000/auth/generate-token
+POST http://localhost:10000/api/v1/auth/generate-token
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
@@ -41,3 +46,10 @@ Authorization: Bearer {{accessToken}}
   "refreshToken": "{{refreshToken}}"
 
 }
+
+
+### 나의 프로필 조회
+GET http://localhost:10000/api/v1/users/profile
+Content-Type: application/json
+X-User-Id: {{userId}}
+X-User_Role: {{userRoleType}}
