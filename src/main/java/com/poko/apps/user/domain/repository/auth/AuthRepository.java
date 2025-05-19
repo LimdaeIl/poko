@@ -12,4 +12,5 @@ public interface AuthRepository {
   boolean existsUserByEmail(String email);
   boolean existsUserByPhone(String phone);
 
+  Optional<User> findById(Long userId);
 }
