@@ -15,8 +15,8 @@ public enum CommonErrorCode implements ErrorCode {
   INTERNAL_ERROR(-1, "내부 서버 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
   BAD_REQUEST_CONTEXT_HOLDER(-1, "요청으로부터 RequestContextHolder 를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
   NOT_FOUND_USER_ROLE_BY_HEADER(-1, "헤더에서 X-User-Role 이 비어있거나 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-  INVALID_ROLE_VALUE(-1, "유효하지 않은 회원 권한 입니다.", HttpStatus.BAD_REQUEST);
-
+  INVALID_ROLE_VALUE(-1, "유효하지 않은 회원 권한 입니다.", HttpStatus.BAD_REQUEST),
+  INVALID_USER_ID_VALUE(-1, "유효하지 않은 회원 ID 입니다.", HttpStatus.BAD_REQUEST);
 
 
   private final Integer code;
