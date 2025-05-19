@@ -103,7 +103,7 @@ public class AuthController {
   public ResponseEntity<ApiResponse<GenerateTokenResponse>> generateToken(
       @RequestHeader("Authorization") String accessToken,
       @RequestBody GenerateTokenRequest request
-  ) {S
+  ) {
     return ResponseEntity
         .status(OK)
         .body(
