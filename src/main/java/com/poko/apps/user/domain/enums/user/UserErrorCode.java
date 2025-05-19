@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum UserErrorCode implements ErrorCode {
 
-  USER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "회원을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  USER_NOT_FOUND_BY_ID(HttpStatus.NOT_FOUND.value(), "회원 ID를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  USER_NOT_FOUND_BY_PHONE(HttpStatus.NOT_FOUND.value(), "회원 휴대전화번호를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  USER_NOT_FOUND_BY_EMAIL(HttpStatus.NOT_FOUND.value(), "회원 이메일을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
   USER_GET_FORBIDDEN(HttpStatus.FORBIDDEN.value(), "해당 회원 정보를 조회할 권한이 없습니다.", HttpStatus.FORBIDDEN),
   USER_ROLE_NOT_VALID(HttpStatus.BAD_REQUEST.value(), "유효하지 않은 회원 권한입니다.", HttpStatus.BAD_REQUEST),
   USER_ALREADY_EXISTS(HttpStatus.CONFLICT.value(), "이미 존재하는 회원입니다.", HttpStatus.CONFLICT),
