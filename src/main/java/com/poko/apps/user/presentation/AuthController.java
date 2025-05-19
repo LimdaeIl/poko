@@ -17,7 +17,7 @@ import com.poko.apps.user.application.dto.auth.response.ExistsPhoneResponse;
 import com.poko.apps.user.application.dto.auth.response.GenerateTokenResponse;
 import com.poko.apps.user.application.dto.auth.response.LoginResponse;
 import com.poko.apps.user.application.dto.auth.response.SignupResponse;
-import com.poko.apps.user.application.service.AuthService;
+import com.poko.apps.user.application.service.auth.AuthService;
 import com.poko.apps.user.domain.enums.auth.AuthSuccessCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RestController
 public class AuthController {
 
@@ -114,6 +114,4 @@ public class AuthController {
             )
         );
   }
-
-
 }
