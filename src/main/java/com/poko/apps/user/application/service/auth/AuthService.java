@@ -1,4 +1,4 @@
-package com.poko.apps.user.application.service;
+package com.poko.apps.user.application.service.auth;
 
 import com.poko.apps.user.application.dto.auth.request.ExistsEmailRequest;
 import com.poko.apps.user.application.dto.auth.request.ExistsPhoneRequest;
