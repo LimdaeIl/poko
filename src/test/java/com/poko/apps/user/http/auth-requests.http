@@ -32,4 +32,12 @@ POST http://localhost:10000/auth/logout
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
+### 토큰 재발급
+POST http://localhost:10000/auth/generate-token
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
+{
+  "refreshToken": "{{refreshToken}}"
+
+}
