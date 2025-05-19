@@ -2,16 +2,19 @@ package com.poko.apps.user.presentation;
 
 import static com.poko.apps.user.domain.enums.auth.AuthSuccessCode.USER_LOGIN_SUCCESS;
 import static com.poko.apps.user.domain.enums.auth.AuthSuccessCode.USER_SIGNUP_SUCCESS;
+import static com.poko.apps.user.domain.enums.auth.AuthSuccessCode.USER_TOKEN_GENERATION_SUCCESS;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 import com.poko.apps.common.util.response.ApiResponse;
 import com.poko.apps.user.application.dto.auth.request.ExistsEmailRequest;
 import com.poko.apps.user.application.dto.auth.request.ExistsPhoneRequest;
+import com.poko.apps.user.application.dto.auth.request.GenerateTokenRequest;
 import com.poko.apps.user.application.dto.auth.request.LoginRequest;
 import com.poko.apps.user.application.dto.auth.request.SignupRequest;
 import com.poko.apps.user.application.dto.auth.response.ExistsEmailResponse;
 import com.poko.apps.user.application.dto.auth.response.ExistsPhoneResponse;
+import com.poko.apps.user.application.dto.auth.response.GenerateTokenResponse;
 import com.poko.apps.user.application.dto.auth.response.LoginResponse;
 import com.poko.apps.user.application.dto.auth.response.SignupResponse;
 import com.poko.apps.user.application.service.AuthService;
@@ -94,7 +97,22 @@ public class AuthController {
   public ResponseEntity<ApiResponse<Void>> logout(@RequestHeader("Authorization") String accessToken) {
     authService.logout(accessToken);
     return ResponseEntity.noContent().build();
+  }
 
+  @PostMapping("/generate-token")
+  public ResponseEntity<ApiResponse<GenerateTokenResponse>> generateToken(
+      @RequestHeader("Authorization") String accessToken,
+      @RequestBody GenerateTokenRequest request
+  ) {S
+    return ResponseEntity
+        .status(OK)
+        .body(
+            new ApiResponse<>(
+                USER_TOKEN_GENERATION_SUCCESS.getCode(),
+                USER_TOKEN_GENERATION_SUCCESS.getMessage(),
+                authService.generateToken(accessToken, request)
+            )
+        );
   }
 
 

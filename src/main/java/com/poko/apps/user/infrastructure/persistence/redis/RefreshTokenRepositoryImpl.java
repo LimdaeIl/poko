@@ -28,8 +28,8 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
 
   @Override
   public void deleteRefreshToken(Long userId) {
-    String findKey = "RT:" + userId;
-    redisTemplate.delete(findKey);
+    String key = "RT:" + userId;
+    redisTemplate.delete(key);
   }
 
 }

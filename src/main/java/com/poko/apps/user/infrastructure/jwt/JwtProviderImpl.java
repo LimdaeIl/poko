@@ -3,13 +3,18 @@ package com.poko.apps.user.infrastructure.jwt;
 import static com.poko.apps.user.domain.enums.auth.AuthErrorCode.INVALID_BEARER_TOKEN;
 
 import com.poko.apps.common.exception.CustomException;
+import com.poko.apps.user.domain.enums.auth.AuthErrorCode;
 import com.poko.apps.user.domain.enums.user.UserRoleType;
 import com.poko.apps.user.domain.jwt.JwtProvider;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.PrematureJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import java.security.Key;
 import java.util.Date;
 import java.util.UUID;
@@ -77,6 +82,7 @@ public class JwtProviderImpl implements JwtProvider {
     return claims.getExpiration().getTime() - System.currentTimeMillis();
   }
 
+
   @Override
   public String getTokenId(String bearerToken) {
     Claims claims = extractClaims(bearerToken);
@@ -89,6 +95,7 @@ public class JwtProviderImpl implements JwtProvider {
 
     return Long.parseLong(claims.getSubject());
   }
+
 
   private Claims extractClaims(String bearerToken) {
     if (bearerToken.isBlank() || !bearerToken.startsWith(PREFIX_BEARER)) {
@@ -103,8 +110,18 @@ public class JwtProviderImpl implements JwtProvider {
           .build()
           .parseSignedClaims(token)
           .getPayload();
+    } catch (ExpiredJwtException e) {
+      throw new CustomException(AuthErrorCode.TOKEN_EXPIRED);
+    } catch (MalformedJwtException e) {
+      throw new CustomException(AuthErrorCode.MALFORMED_TOKEN);
+    } catch (SignatureException e) {
+      throw new CustomException(AuthErrorCode.TAMPERED_TOKEN);
+    } catch (PrematureJwtException e) {
+      throw new CustomException(AuthErrorCode.TOKEN_TOO_EARLY);
     } catch (JwtException e) {
       throw new CustomException(INVALID_BEARER_TOKEN);
     }
   }
+
+
 }

@@ -6,8 +6,10 @@ import static com.poko.apps.user.domain.enums.auth.AuthErrorCode.*;
 import com.poko.apps.common.exception.CustomException;
 import com.poko.apps.user.application.dto.auth.request.ExistsEmailRequest;
 import com.poko.apps.user.application.dto.auth.request.ExistsPhoneRequest;
+import com.poko.apps.user.application.dto.auth.request.GenerateTokenRequest;
 import com.poko.apps.user.application.dto.auth.request.LoginRequest;
 import com.poko.apps.user.application.dto.auth.request.SignupRequest;
+import com.poko.apps.user.application.dto.auth.response.GenerateTokenResponse;
 import com.poko.apps.user.application.dto.auth.response.LoginResponse;
 import com.poko.apps.user.application.dto.auth.response.SignupResponse;
 import com.poko.apps.user.domain.entity.User;
@@ -39,6 +41,11 @@ public class AuthServiceImpl implements AuthService {
 
   private boolean existsUserByPhone(String phone) {
     return authRepository.existsUserByPhone(phone);
+  }
+
+  private User findUserById(Long userId) {
+    return authRepository.findById(userId)
+        .orElseThrow(() -> new CustomException(USER_NOT_FOUND_BY_ID));
   }
 
   private User findUserByPhone(String phone) {
@@ -124,5 +131,19 @@ public class AuthServiceImpl implements AuthService {
     refreshTokenRepository.deleteRefreshToken(userId);
   }
 
+  @Transactional
+  @Override
+  public GenerateTokenResponse generateToken(String accessToken, GenerateTokenRequest request) {
+    Long userId = jwtProvider.getUserIdByToken(accessToken);
 
+    User user = findUserById(userId);
+
+    String newAccessToken = jwtProvider.createAccessToken(user.getId(), user.getUserRoleType());
+    String newRefreshToken = jwtProvider.refreshAccessToken(user.getId());
+
+    refreshTokenRepository.deleteRefreshToken(user.getId());
+    refreshTokenRepository.saveRefreshToken(user.getId(), newRefreshToken, jwtProvider.getRefreshTokenExpire());
+
+    return GenerateTokenResponse.of(newAccessToken, newRefreshToken);
+  }
 }
