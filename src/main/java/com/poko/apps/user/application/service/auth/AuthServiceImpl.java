@@ -1,4 +1,4 @@
-package com.poko.apps.user.application.service;
+package com.poko.apps.user.application.service.auth;
 
 import static com.poko.apps.common.exception.CommonErrorCode.INVALID_INPUT;
 import static com.poko.apps.user.domain.enums.auth.AuthErrorCode.*;
@@ -13,7 +13,6 @@ import com.poko.apps.user.application.dto.auth.response.GenerateTokenResponse;
 import com.poko.apps.user.application.dto.auth.response.LoginResponse;
 import com.poko.apps.user.application.dto.auth.response.SignupResponse;
 import com.poko.apps.user.domain.entity.User;
-import com.poko.apps.user.domain.enums.auth.AuthErrorCode;
 import com.poko.apps.user.domain.enums.auth.AuthSuccessCode;
 import com.poko.apps.user.domain.jwt.JwtProvider;
 import com.poko.apps.user.domain.repository.auth.AuthRepository;
