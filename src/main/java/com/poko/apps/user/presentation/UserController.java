@@ -1,14 +1,24 @@
 package com.poko.apps.user.presentation;
 
+import static com.poko.apps.common.domain.enums.UserRoleType.ROLE_ADMIN;
+import static com.poko.apps.user.domain.enums.user.UserSuccessCode.USERS_GET_SUCCESS;
 import static com.poko.apps.user.domain.enums.user.UserSuccessCode.USER_GET_SUCCESS;
+import static org.springframework.data.domain.Sort.Direction.DESC;
 import static org.springframework.http.HttpStatus.OK;
 
+import com.poko.apps.common.aop.CustomPreAuthorize;
 import com.poko.apps.common.domain.vo.CurrentUserInfo;
 import com.poko.apps.common.resolver.CurrentUser;
 import com.poko.apps.common.util.response.ApiResponse;
+import com.poko.apps.user.application.dto.auth.request.UserSearchCondition;
 import com.poko.apps.user.application.dto.auth.response.GetUserResponse;
+import com.poko.apps.user.application.dto.auth.response.GetUsersResponse;
 import com.poko.apps.user.application.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +31,6 @@ public class UserController {
 
   private final UserService userService;
 
-  // 자신의 회원 정보 조회
   @GetMapping("/profile")
   public ResponseEntity<ApiResponse<GetUserResponse>> getMyProfile(@CurrentUser CurrentUserInfo info) {
 
@@ -36,7 +45,24 @@ public class UserController {
         );
   }
 
-  // 동적 회원 조회
+  @CustomPreAuthorize(userRoleType = {ROLE_ADMIN})
+  @GetMapping
+  public ResponseEntity<ApiResponse<Page<GetUsersResponse>>> getUsers(
+      @ParameterObject UserSearchCondition condition,
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "createdAt", direction = DESC),
+      }) Pageable pageable
+  ) {
+    return ResponseEntity
+        .status(OK)
+        .body(
+            new ApiResponse<>(
+                USERS_GET_SUCCESS.getCode(),
+                USERS_GET_SUCCESS.getMessage(),
+                userService.getUsers(condition, pageable)
+            )
+        );
+  }
 
   // 회원 아이디 수정
 

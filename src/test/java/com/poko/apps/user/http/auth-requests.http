@@ -52,4 +52,17 @@ Authorization: Bearer {{accessToken}}
 GET http://localhost:10000/api/v1/users/profile
 Content-Type: application/json
 X-User-Id: {{userId}}
-X-User_Role: {{userRoleType}}
+X-User-Role: {{userRoleType}}
+
+
+### 동적 회원 조회
+GET http://localhost:10000/api/v1/users?id=100&email=test@example.com&name=홍길동&phone=01012345678&userRoleType=ROLE_ADMIN&isDeleted=false&createdBy=1&createdFrom=2024-01-01T00:00:00&createdTo=2025-01-01T00:00:00&modifiedBy=2&modifiedFrom=2024-06-01T00:00:00&modifiedTo=2025-01-01T00:00:00&deletedBy=3&deletedFrom=2024-12-01T00:00:00&deletedTo=2025-01-01T00:00:00&page=0&size=20&sort=createdAt,desc
+Content-Type: application/json
+X-User-Id: {{userId}}
+X-User-Role: {{userRoleType}}
+
+### 동적 회원 조회
+GET http://localhost:10000/api/v1/users?id=1
+Content-Type: application/json
+X-User-Id: {{userId}}
+X-User-Role: {{userRoleType}}
