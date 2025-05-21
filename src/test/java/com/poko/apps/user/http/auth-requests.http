@@ -66,3 +66,15 @@ GET http://localhost:10000/api/v1/users?id=1
 Content-Type: application/json
 X-User-Id: {{userId}}
 X-User-Role: {{userRoleType}}
+
+
+### 회원 이메일 수정
+PATCH http://localhost:10000/api/v1/users/{{userId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+X-User-Id: {{userId}}
+X-User-Role: {{userRoleType}}
+
+{
+  "email" : "newPoko@naver.com"
+}
