@@ -1,19 +1,22 @@
 package com.poko.apps.user.application.service.user;
 
 
-
+import static com.poko.apps.user.domain.enums.user.UserErrorCode.INVALID_PATCH_EMAIL;
 import static com.poko.apps.user.domain.enums.user.UserErrorCode.USER_NOT_FOUND_BY_EMAIL;
 import static com.poko.apps.user.domain.enums.user.UserErrorCode.USER_NOT_FOUND_BY_ID;
 import static com.poko.apps.user.domain.enums.user.UserErrorCode.USER_NOT_FOUND_BY_PHONE;
+import static com.poko.apps.user.domain.enums.user.UserRoleType.ROLE_ADMIN;
 
 import com.poko.apps.common.domain.vo.CurrentUserInfo;
 import com.poko.apps.common.exception.CustomException;
 import com.poko.apps.user.application.dto.auth.request.UserSearchCondition;
 import com.poko.apps.user.application.dto.auth.response.GetUserResponse;
 import com.poko.apps.user.application.dto.auth.response.GetUsersResponse;
+import com.poko.apps.user.application.dto.auth.response.PatchUserEmailResponse;
 import com.poko.apps.user.domain.entity.User;
 import com.poko.apps.user.domain.repository.user.UserQueryRepository;
 import com.poko.apps.user.domain.repository.user.UserRepository;
+import com.poko.apps.user.presentation.PatchUserEmailRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,5 +59,19 @@ public class UserServiceImpl implements UserService {
     return userQueryRepository.getUsersByCondition(condition, pageable);
   }
 
+  @Transactional
+  @Override
+  public PatchUserEmailResponse patchUserEmail(CurrentUserInfo info, Long id, PatchUserEmailRequest request) {
+    boolean isAdmin = info.userRoleType().getName().equals(ROLE_ADMIN.getName());
 
+    if (!isAdmin && !info.userId().equals(id)) {
+      throw new CustomException(INVALID_PATCH_EMAIL);
+    }
+
+    User userById = findUserById(id);
+    userById.patchEmail(request.email());
+    userRepository.save(userById);
+
+    return PatchUserEmailResponse.from(userById);
+  }
 }

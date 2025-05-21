@@ -20,7 +20,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolver {
 
   private static final String USER_ID_HEADER = "X-User-Id";
-  private static final String USER_ROLE_HEADER = "X-User_Role";
+  private static final String USER_ROLE_HEADER = "X-User-Role";
 
   @Override
   public boolean supportsParameter(MethodParameter parameter) {
@@ -34,6 +34,7 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
 
     String userId = webRequest.getHeader(USER_ID_HEADER);
     String userRole = webRequest.getHeader(USER_ROLE_HEADER);
+    log.info("userId: {}, userRole: {}", userId, userRole);
 
     if (userId == null || userRole == null) {
       throw new CustomException(UNAUTHORIZED);

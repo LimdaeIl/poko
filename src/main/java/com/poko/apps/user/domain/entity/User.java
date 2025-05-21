@@ -48,4 +48,7 @@ public class User extends BaseEntity {
   @Column(name = "role", nullable = false)
   private UserRoleType userRoleType = UserRoleType.ROLE_USER;
 
+  public void patchEmail(String email) {
+    this.email = email;
+  }
 }
