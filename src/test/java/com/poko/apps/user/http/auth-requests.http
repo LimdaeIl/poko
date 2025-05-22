@@ -92,3 +92,15 @@ X-User-Role: {{userRoleType}}
   "password": "Pok123123123!",
   "newPassword": "Pok456456!"
 }
+
+### 회원 권한 수정
+PATCH http://localhost:10000/api/v1/users/{{userId}}/role
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+X-User-Id: {{userId}}
+X-User-Role: {{userRoleType}}
+
+{
+  "newUserRoleType": "ROLE_USER"
+
+}
