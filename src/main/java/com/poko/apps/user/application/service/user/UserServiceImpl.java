@@ -10,8 +10,10 @@ import static com.poko.apps.user.domain.enums.user.UserRoleType.ROLE_ADMIN;
 
 import com.poko.apps.common.domain.vo.CurrentUserInfo;
 import com.poko.apps.common.exception.CustomException;
+import com.poko.apps.user.application.dto.user.request.FetchRoleRequest;
 import com.poko.apps.user.application.dto.user.request.PatchUserPasswordRequest;
 import com.poko.apps.user.application.dto.user.request.UserSearchCondition;
+import com.poko.apps.user.application.dto.user.response.FetchUserRoleResponse;
 import com.poko.apps.user.application.dto.user.response.GetUserResponse;
 import com.poko.apps.user.application.dto.user.response.GetUsersResponse;
 import com.poko.apps.user.application.dto.user.response.PatchUserEmailResponse;
@@ -69,12 +71,13 @@ public class UserServiceImpl implements UserService {
     isAdmin(info, id);
 
     User userById = findUserById(id);
-    userById.patchEmail(request.email());
+    userById.fetchEmail(request.email());
     userRepository.save(userById);
 
     return PatchUserEmailResponse.from(userById);
   }
 
+  @Transactional
   @Override
   public void patchUserPassword(CurrentUserInfo info, Long id, PatchUserPasswordRequest request) {
     isAdmin(info, id);
@@ -84,8 +87,20 @@ public class UserServiceImpl implements UserService {
       throw new CustomException(INVALID_PATCH_PASSWORD);
     }
 
-    userById.patchPassword(passwordEncoder.encode(request.password()));
+    userById.fetchPassword(passwordEncoder.encode(request.password()));
     userRepository.save(userById);
+  }
+
+  @Transactional
+  @Override
+  public FetchUserRoleResponse patchUserRole(CurrentUserInfo info, Long id, FetchRoleRequest request) {
+    isAdmin(info, id);
+    User userById = findUserById(id);
+
+    userById.fetchRole(request.newUserRoleType());
+    User save = userRepository.save(userById);
+
+    return FetchUserRoleResponse.of(save.getId(), save.getUserRoleType());
   }
 
   private void isAdmin(CurrentUserInfo info, Long id) {
@@ -95,6 +110,4 @@ public class UserServiceImpl implements UserService {
       throw new CustomException(INVALID_PATCH_USER);
     }
   }
-
-
 }

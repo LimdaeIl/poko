@@ -1,8 +1,10 @@
 package com.poko.apps.user.application.service.user;
 
 import com.poko.apps.common.domain.vo.CurrentUserInfo;
+import com.poko.apps.user.application.dto.user.request.FetchRoleRequest;
 import com.poko.apps.user.application.dto.user.request.PatchUserPasswordRequest;
 import com.poko.apps.user.application.dto.user.request.UserSearchCondition;
+import com.poko.apps.user.application.dto.user.response.FetchUserRoleResponse;
 import com.poko.apps.user.application.dto.user.response.GetUserResponse;
 import com.poko.apps.user.application.dto.user.response.GetUsersResponse;
 import com.poko.apps.user.application.dto.user.response.PatchUserEmailResponse;
@@ -19,4 +21,6 @@ public interface UserService {
   PatchUserEmailResponse patchUserEmail(CurrentUserInfo info, Long id, PatchUserEmailRequest request);
 
   void patchUserPassword(CurrentUserInfo info, Long id, PatchUserPasswordRequest request);
+
+  FetchUserRoleResponse patchUserRole(CurrentUserInfo info, Long id, FetchRoleRequest request);
 }
