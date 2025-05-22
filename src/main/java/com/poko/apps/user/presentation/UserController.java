@@ -77,7 +77,6 @@ public class UserController {
         );
   }
 
-  // 회원 아이디 수정
   @CustomPreAuthorize(userRoleType = {ROLE_ADMIN, ROLE_USER, ROLE_DELIVERY, ROLE_STORE})
   @PatchMapping("/{id}")
   public ResponseEntity<ApiResponse<PatchUserEmailResponse>> patchUserEmail(
@@ -96,7 +95,6 @@ public class UserController {
         );
   }
 
-  // 회원 비밀번호 수정
   @CustomPreAuthorize(userRoleType = {ROLE_ADMIN, ROLE_USER, ROLE_DELIVERY, ROLE_STORE})
   @PatchMapping("/{id}/password")
   public ResponseEntity<ApiResponse<Void>> patchUserPassword(
@@ -117,7 +115,6 @@ public class UserController {
         );
   }
 
-  // 회원 권한 수정
   @CustomPreAuthorize(userRoleType = {ROLE_ADMIN, ROLE_USER, ROLE_DELIVERY, ROLE_STORE})
   @PatchMapping("/{id}/role")
   public ResponseEntity<ApiResponse<FetchUserRoleResponse>> fetchRole(
@@ -125,15 +122,13 @@ public class UserController {
       @PathVariable Long id,
       @RequestBody FetchRoleRequest request
   ) {
-    userService.patchUserRole(info, id, request);
-
     return ResponseEntity
         .status(OK)
         .body(
             new ApiResponse<>(
                 USER_PATCH_ROLE_SUCCESS.getCode(),
                 USER_PATCH_ROLE_SUCCESS.getMessage(),
-                null
+                userService.patchUserRole(info, id, request)
             )
         );
   }
