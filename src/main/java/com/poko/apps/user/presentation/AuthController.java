@@ -3,15 +3,20 @@ package com.poko.apps.user.presentation;
 import static com.poko.apps.user.domain.enums.auth.AuthSuccessCode.USER_LOGIN_SUCCESS;
 import static com.poko.apps.user.domain.enums.auth.AuthSuccessCode.USER_SIGNUP_SUCCESS;
 import static com.poko.apps.user.domain.enums.auth.AuthSuccessCode.USER_TOKEN_GENERATION_SUCCESS;
+import static com.poko.apps.user.domain.enums.user.UserSuccessCode.SEND_CODE_SUCCESS;
+import static com.poko.apps.user.domain.enums.user.UserSuccessCode.VERIFY_CODE_SUCCESS;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 import com.poko.apps.common.util.response.ApiResponse;
+import com.poko.apps.user.application.dto.auth.request.EmailCodeRequest;
+import com.poko.apps.user.application.dto.auth.request.EmailVerifyRequest;
 import com.poko.apps.user.application.dto.auth.request.ExistsEmailRequest;
 import com.poko.apps.user.application.dto.auth.request.ExistsPhoneRequest;
 import com.poko.apps.user.application.dto.auth.request.GenerateTokenRequest;
 import com.poko.apps.user.application.dto.auth.request.LoginRequest;
 import com.poko.apps.user.application.dto.auth.request.SignupRequest;
+import com.poko.apps.user.application.dto.auth.response.EmailCodeResponse;
 import com.poko.apps.user.application.dto.auth.response.ExistsEmailResponse;
 import com.poko.apps.user.application.dto.auth.response.ExistsPhoneResponse;
 import com.poko.apps.user.application.dto.auth.response.GenerateTokenResponse;
@@ -114,4 +119,39 @@ public class AuthController {
             )
         );
   }
+
+  // 코드 전송
+  @PostMapping("/email/send-code")
+  public ResponseEntity<ApiResponse<EmailCodeResponse>> emailCode(
+      @Valid @RequestBody EmailCodeRequest request
+  ) {
+    return ResponseEntity
+        .status(OK)
+        .body(
+            new ApiResponse<>(
+                SEND_CODE_SUCCESS.getCode(),
+                SEND_CODE_SUCCESS.getMessage(),
+                authService.emailCode(request)
+            )
+        );
+  }
+
+  // 코드 검증
+  @PostMapping("/email/verify-code")
+  public ResponseEntity<ApiResponse<Void>> verifyCode(@Valid @RequestBody EmailVerifyRequest request) {
+    authService.verifyCode(request);
+
+    return ResponseEntity
+        .status(OK)
+        .body(
+            new ApiResponse<>(
+                VERIFY_CODE_SUCCESS.getCode(),
+                VERIFY_CODE_SUCCESS.getMessage(),
+                null
+            )
+        );
+
+  }
+
+
 }

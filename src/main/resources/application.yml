@@ -39,3 +39,27 @@ spring:
     redis:
       port: ${REDIS_AUTH_PORT}
       host: ${REDIS_AUTH_HOST}
+
+---
+
+spring:
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: ${NAVER_ID}
+    password: ${NAVER_PW}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          starttls:
+            enable: true
+            required: true
+          connectionTimeout: 5000
+          timeout: 5000
+          writeTimeout: 5000
+        debug: true
+
+---
