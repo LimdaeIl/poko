@@ -78,3 +78,17 @@ X-User-Role: {{userRoleType}}
 {
   "email" : "newPoko@naver.com"
 }
+
+
+### 회원 비밀번호 수정
+PATCH http://localhost:10000/api/v1/users/{{userId}}/password
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+X-User-Id: {{userId}}
+X-User-Role: {{userRoleType}}
+
+
+{
+  "password": "Pok123123123!",
+  "newPassword": "Pok456456!"
+}
