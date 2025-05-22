@@ -104,3 +104,21 @@ X-User-Role: {{userRoleType}}
   "newUserRoleType": "ROLE_USER"
 
 }
+
+### 이메일 인증 코드 전송
+POST http://localhost:10000/api/v1/auth/email/send-code
+Content-Type: application/json
+
+{
+  "email": "optional94@naver.com"
+}
+
+###이메일 인증 코드 확인
+POST http://localhost:10000/api/v1/auth/email/verify-code
+Content-Type: application/json
+
+{
+  "email": "optional94@naver.com",
+  "verifyCode": 857901
+
+}
