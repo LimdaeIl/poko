@@ -1,7 +1,7 @@
 package com.poko.apps.user.infrastructure.persistence.querydsl;
 
-import com.poko.apps.user.application.dto.auth.request.UserSearchCondition;
-import com.poko.apps.user.application.dto.auth.response.GetUsersResponse;
+import com.poko.apps.user.application.dto.user.request.UserSearchCondition;
+import com.poko.apps.user.application.dto.user.response.GetUsersResponse;
 import com.poko.apps.user.domain.entity.QUser;
 import com.poko.apps.user.domain.repository.user.UserQueryRepository;
 import com.querydsl.core.BooleanBuilder;

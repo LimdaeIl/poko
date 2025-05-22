@@ -18,7 +18,10 @@ public enum UserErrorCode implements ErrorCode {
   USER_SIGNUP_FAILED(HttpStatus.INTERNAL_SERVER_ERROR.value(), "회원가입에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
   USER_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR.value(), "회원 정보 수정에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
   USER_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR.value(), "회원 삭제에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
-  INVALID_PATCH_EMAIL(HttpStatus.FORBIDDEN.value(), "자신의 이메일만 수정할 수 있습니다.", HttpStatus.FORBIDDEN);
+  INVALID_PATCH_EMAIL(HttpStatus.FORBIDDEN.value(), "자신의 이메일만 수정할 수 있습니다.", HttpStatus.FORBIDDEN),
+  INVALID_PATCH_USER(HttpStatus.FORBIDDEN.value(), "자신의 정보만 수정할 수 있습니다.", HttpStatus.FORBIDDEN),
+  INVALID_PATCH_PASSWORD(HttpStatus.UNAUTHORIZED.value(), "비밀번호가 올바르지 않습니다.", HttpStatus.UNAUTHORIZED);
+
 
   private final Integer code;
   private final String message;

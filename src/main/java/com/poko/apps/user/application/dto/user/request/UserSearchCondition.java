@@ -1,4 +1,4 @@
-package com.poko.apps.user.application.dto.auth.request;
+package com.poko.apps.user.application.dto.user.request;
 
 import com.poko.apps.user.domain.enums.user.UserRoleType;
 import java.time.LocalDateTime;

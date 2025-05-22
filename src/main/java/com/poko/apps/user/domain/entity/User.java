@@ -51,4 +51,8 @@ public class User extends BaseEntity {
   public void patchEmail(String email) {
     this.email = email;
   }
+
+  public void patchPassword(String password) {
+    this.password = password;
+  }
 }

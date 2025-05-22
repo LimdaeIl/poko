@@ -14,13 +14,13 @@ services:
     networks:
       - poko-network
 
-  redis-user:
+  redis-auth:
     image: redis:latest
-    container_name: redis-user
+    container_name: redis-auth
     ports:
-      - "${REDIS_PORT}:6379"
+      - "${REDIS_AUTH_PORT}:6379"
     volumes:
-      - ./redis-user-config:/usr/local/etc/redis
+      - ./redis-auth-config:/usr/local/etc/redis
     networks:
       - poko-network
 

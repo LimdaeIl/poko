@@ -37,5 +37,5 @@ jwt:
 spring:
   data:
     redis:
-      port: ${REDIS_PORT}
-      host: ${REDIS_HOST}
+      port: ${REDIS_AUTH_PORT}
+      host: ${REDIS_AUTH_HOST}

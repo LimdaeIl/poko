@@ -6,6 +6,7 @@ import static com.poko.apps.common.domain.enums.UserRoleType.ROLE_STORE;
 import static com.poko.apps.common.domain.enums.UserRoleType.ROLE_USER;
 import static com.poko.apps.user.domain.enums.user.UserSuccessCode.USERS_GET_SUCCESS;
 import static com.poko.apps.user.domain.enums.user.UserSuccessCode.USER_GET_SUCCESS;
+import static com.poko.apps.user.domain.enums.user.UserSuccessCode.USER_PATCH_PASSWORD_SUCCESS;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -13,10 +14,11 @@ import com.poko.apps.common.aop.CustomPreAuthorize;
 import com.poko.apps.common.domain.vo.CurrentUserInfo;
 import com.poko.apps.common.resolver.CurrentUser;
 import com.poko.apps.common.util.response.ApiResponse;
-import com.poko.apps.user.application.dto.auth.request.UserSearchCondition;
-import com.poko.apps.user.application.dto.auth.response.GetUserResponse;
-import com.poko.apps.user.application.dto.auth.response.GetUsersResponse;
-import com.poko.apps.user.application.dto.auth.response.PatchUserEmailResponse;
+import com.poko.apps.user.application.dto.user.request.PatchUserPasswordRequest;
+import com.poko.apps.user.application.dto.user.request.UserSearchCondition;
+import com.poko.apps.user.application.dto.user.response.GetUserResponse;
+import com.poko.apps.user.application.dto.user.response.GetUsersResponse;
+import com.poko.apps.user.application.dto.user.response.PatchUserEmailResponse;
 import com.poko.apps.user.application.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -92,6 +94,25 @@ public class UserController {
   }
 
   // 회원 비밀번호 수정
+  @CustomPreAuthorize(userRoleType = {ROLE_ADMIN, ROLE_USER, ROLE_DELIVERY, ROLE_STORE})
+  @PatchMapping("/{id}/password")
+  public ResponseEntity<ApiResponse<Void>> patchUserPassword(
+      @CurrentUser CurrentUserInfo info,
+      @PathVariable Long id,
+      @RequestBody PatchUserPasswordRequest request
+  ) {
+    userService.patchUserPassword(info, id, request);
+
+    return ResponseEntity
+        .status(OK)
+        .body(
+            new ApiResponse<>(
+                USER_PATCH_PASSWORD_SUCCESS.getCode(),
+                USER_PATCH_PASSWORD_SUCCESS.getMessage(),
+                null
+            )
+        );
+  }
 
   // 회원 프로필 수정
 
