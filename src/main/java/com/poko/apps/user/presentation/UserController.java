@@ -7,6 +7,7 @@ import static com.poko.apps.common.domain.enums.UserRoleType.ROLE_USER;
 import static com.poko.apps.user.domain.enums.user.UserSuccessCode.USERS_GET_SUCCESS;
 import static com.poko.apps.user.domain.enums.user.UserSuccessCode.USER_GET_SUCCESS;
 import static com.poko.apps.user.domain.enums.user.UserSuccessCode.USER_PATCH_PASSWORD_SUCCESS;
+import static com.poko.apps.user.domain.enums.user.UserSuccessCode.USER_PATCH_ROLE_SUCCESS;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -14,8 +15,10 @@ import com.poko.apps.common.aop.CustomPreAuthorize;
 import com.poko.apps.common.domain.vo.CurrentUserInfo;
 import com.poko.apps.common.resolver.CurrentUser;
 import com.poko.apps.common.util.response.ApiResponse;
+import com.poko.apps.user.application.dto.user.request.FetchRoleRequest;
 import com.poko.apps.user.application.dto.user.request.PatchUserPasswordRequest;
 import com.poko.apps.user.application.dto.user.request.UserSearchCondition;
+import com.poko.apps.user.application.dto.user.response.FetchUserRoleResponse;
 import com.poko.apps.user.application.dto.user.response.GetUserResponse;
 import com.poko.apps.user.application.dto.user.response.GetUsersResponse;
 import com.poko.apps.user.application.dto.user.response.PatchUserEmailResponse;
@@ -114,13 +117,24 @@ public class UserController {
         );
   }
 
-  // 회원 프로필 수정
-
-  // 회원 이름 수정
-
-  // 회원 휴대전화번호 수정
-
   // 회원 권한 수정
+  @CustomPreAuthorize(userRoleType = {ROLE_ADMIN, ROLE_USER, ROLE_DELIVERY, ROLE_STORE})
+  @PatchMapping("/{id}/role")
+  public ResponseEntity<ApiResponse<FetchUserRoleResponse>> fetchRole(
+      @CurrentUser CurrentUserInfo info,
+      @PathVariable Long id,
+      @RequestBody FetchRoleRequest request
+  ) {
+    userService.patchUserRole(info, id, request);
 
-
+    return ResponseEntity
+        .status(OK)
+        .body(
+            new ApiResponse<>(
+                USER_PATCH_ROLE_SUCCESS.getCode(),
+                USER_PATCH_ROLE_SUCCESS.getMessage(),
+                null
+            )
+        );
+  }
 }
